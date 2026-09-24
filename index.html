@@ -1,35 +1,291 @@
 <!DOCTYPE html>
-<html lang="pt-br">
+<html lang="pt-BR">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Master Cartuchos</title>
-<link rel="stylesheet" href="styles.css">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Master Cartuchos — Orientações para você</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --navy:#0B1D3A; --navy2:#123166; --blue:#2F6FED; --cyan:#0FAEC7;
+    --magenta:#D8377F; --yellow:#E8A600; --orange:#E56E0A; --red:#D5433A; --green:#1E8F5C;
+    --paper:#F5F7FB; --ink:#101B32; --line:#E1E6F0; --white:#fff;
+    box-sizing:border-box;
+    padding-top:env(safe-area-inset-top,0px); padding-bottom:env(safe-area-inset-bottom,0px);
+  }
+  html{scroll-padding-top:70px;}
+  *{box-sizing:inherit; margin:0; padding:0;}
+  body{background:var(--paper); color:var(--ink); font-family:'Inter',sans-serif; line-height:1.55; -webkit-font-smoothing:antialiased;}
+  h1,h2,h3,.brand{font-family:'Space Grotesk',sans-serif;}
+  img,svg{max-width:100%; display:block;}
+  a{color:inherit;}
+
+  /* header */
+  header{position:sticky; top:0; z-index:30; background:var(--navy); color:#fff;
+    padding:14px env(safe-area-inset-right,0px) 14px max(18px,env(safe-area-inset-left,0px));
+    display:flex; align-items:center; justify-content:space-between; gap:12px;}
+  .brand{display:flex; align-items:center; gap:10px; font-weight:700; font-size:1.05rem; letter-spacing:.2px;}
+  .brand .mark{width:34px; height:34px; flex:none;}
+  .brand small{display:block; font-family:'Inter'; font-weight:500; font-size:.68rem; color:#9FB4E0; letter-spacing:.03em;}
+  header .wa{background:var(--green); color:#fff; padding:9px 16px; border-radius:8px; font-weight:600; font-size:.85rem; text-decoration:none; white-space:nowrap;}
+
+  /* hero */
+  .hero{background:radial-gradient(1100px 500px at 15% -10%, #163a7a 0%, transparent 60%), var(--navy);
+    color:#fff; padding:56px 20px 44px; position:relative; overflow:hidden;}
+  .hero::after{content:""; position:absolute; inset:0; opacity:.18; pointer-events:none;
+    background-image:
+      linear-gradient(90deg, transparent 96%, #3E6FD8 96%),
+      linear-gradient(0deg, transparent 96%, #3E6FD8 96%);
+    background-size:46px 46px;}
+  .hero-in{max-width:720px; margin:0 auto; position:relative;}
+  .hero h1{font-size:clamp(1.9rem,6vw,2.9rem); font-weight:700; line-height:1.12;}
+  .hero h1 span{color:#4FD8EA;}
+  .hero p{margin-top:16px; font-size:1.05rem; color:#C6D3EE; max-width:46ch;}
+  .scroll-cue{margin-top:34px; display:inline-flex; align-items:center; gap:8px; color:#9FB4E0; font-size:.85rem;}
+  .scroll-cue svg{width:16px;height:16px; animation:bob 1.6s ease-in-out infinite;}
+  @keyframes bob{0%,100%{transform:translateY(0)} 50%{transform:translateY(5px)}}
+
+  /* tabs */
+  .topics{position:sticky; top:62px; z-index:20; background:var(--paper);
+    border-bottom:1px solid var(--line); padding:12px 14px; overflow-x:auto; white-space:nowrap;
+    -webkit-overflow-scrolling:touch;}
+  .topics::-webkit-scrollbar{display:none;}
+  .tab{display:inline-flex; align-items:center; gap:8px; padding:9px 14px; margin-right:8px;
+    border-radius:999px; border:1.5px solid var(--line); background:#fff; color:#4A5468;
+    font-weight:600; font-size:.86rem; cursor:pointer; transition:border-color .15s, color .15s, background .15s;}
+  .tab svg{width:17px; height:17px; flex:none;}
+  .tab.active{color:#fff; border-color:transparent;}
+  .tab[data-c="orange"].active{background:var(--orange);}
+  .tab[data-c="cyan"].active{background:var(--cyan);}
+  .tab[data-c="magenta"].active{background:var(--magenta);}
+  .tab[data-c="navy"].active{background:var(--navy2);}
+  .tab[data-c="red"].active{background:var(--red);}
+
+  main{max-width:760px; margin:0 auto; padding:34px 18px 10px;}
+  .panel{display:none;}
+  .panel.active{display:block; animation:fade .35s ease;}
+  @keyframes fade{from{opacity:0; transform:translateY(6px)} to{opacity:1; transform:translateY(0)}}
+
+  .panel-head{display:flex; align-items:center; gap:14px; margin-bottom:22px;}
+  .panel-head .icon{width:52px; height:52px; border-radius:14px; display:flex; align-items:center; justify-content:center; flex:none;}
+  .panel-head .icon svg{width:28px; height:28px;}
+  .panel-head h2{font-size:1.5rem; font-weight:700; color:var(--navy);}
+  .panel-head p{color:#5B6478; font-size:.92rem; margin-top:2px;}
+
+  .card{background:#fff; border:1px solid var(--line); border-left-width:4px; border-radius:10px;
+    padding:16px 18px; margin-bottom:12px;}
+  .card p{font-size:.96rem; color:#293349;}
+  .card p + p{margin-top:8px;}
+  .card b{color:var(--navy);}
+  .card.warn{background:#FFF6F1;}
+  .card.ok{background:#F1FBF6;}
+
+  .tip{display:flex; gap:12px; align-items:flex-start;}
+  .tip .num{flex:none; width:26px; height:26px; border-radius:50%; background:var(--orange); color:#fff;
+    font-size:.78rem; font-weight:700; display:flex; align-items:center; justify-content:center; margin-top:1px;}
+  .tip svg{flex:none; width:22px; height:22px; margin-top:1px; color:var(--navy2);}
+
+  .callout{border-radius:10px; padding:14px 16px; margin-top:16px; font-size:.92rem; font-weight:600;
+    display:flex; gap:10px; align-items:flex-start;}
+  .callout svg{flex:none; width:20px; height:20px; margin-top:1px;}
+  .callout.good{background:#0E3D2C; color:#D3F5E4;}
+  .callout.bad{background:#3D1414; color:#F7D9D9;}
+
+  .gauge-row{display:flex; gap:22px; margin:10px 0 4px;}
+  .gauge{flex:1; text-align:center;}
+  .gauge .tube{width:44px; height:110px; border:2px solid var(--navy2); border-radius:8px; margin:0 auto 8px;
+    position:relative; overflow:hidden; background:#fff;}
+  .gauge .fill{position:absolute; bottom:0; left:0; right:0;}
+  .gauge span{font-size:.8rem; color:#5B6478; display:block;}
+  .gauge b{font-size:.85rem; color:var(--navy);}
+
+  .steps{counter-reset:step; margin-top:6px;}
+  .step{display:flex; gap:12px; padding:12px 0; border-top:1px dashed var(--line);}
+  .step:first-child{border-top:none;}
+  .step .n{counter-increment:step; content:counter(step); flex:none; width:28px; height:28px; border-radius:50%;
+    background:var(--navy2); color:#fff; font-weight:700; font-size:.8rem; display:flex; align-items:center; justify-content:center;}
+  .step .n::before{content:counter(step);}
+  .step p{font-size:.93rem;}
+
+  /* CTA */
+  .cta{background:linear-gradient(160deg,var(--navy2),var(--navy)); color:#fff; margin-top:50px;
+    padding:52px 20px 46px; text-align:center;}
+  .cta h2{font-size:clamp(1.5rem,5vw,2rem); font-weight:700; max-width:34ch; margin:0 auto;}
+  .cta p.lead{color:#C6D3EE; margin-top:14px; max-width:48ch; margin-left:auto; margin-right:auto; font-size:.98rem;}
+  .cta-buttons{display:flex; flex-wrap:wrap; gap:12px; justify-content:center; margin-top:26px;}
+  .cta-buttons a{padding:12px 20px; border-radius:9px; font-weight:600; font-size:.92rem; text-decoration:none;
+    display:inline-flex; align-items:center; gap:8px;}
+  .btn-google{background:#fff; color:var(--navy);}
+  .btn-wa{background:var(--green); color:#fff;}
+  .btn-site{border:1.5px solid #4A6BB0; color:#DCE6FA;}
+  .thanks{font-family:'Space Grotesk'; font-weight:700; font-size:clamp(2rem,8vw,3rem); letter-spacing:.03em;
+    margin-top:44px; color:#4FD8EA;}
+  footer{text-align:center; padding:20px; font-size:.78rem; color:#7C879C; background:var(--navy);}
+
+  @media(prefers-color-scheme:dark){
+    :root:not([data-theme="light"]){ }
+  }
+  .logo{width: 50px;
+    height: 50px;
+  border-radius: 50%;}
+  .title{text-decoration: none;}
+</style>
 </head>
 <body>
- <nav type="nav"><a href="https://lucaspietrosd0.github.io/master-cartuchos1/"><img id="logo" src="assets/logo.png" alt="" srcset=""></img><span>Master Cartcuhos </span>
- </a></nav>
-    <img id="agradecemos" src="assets/agradecemos por confiar.png" width="1100px" alt="" srcset="">
-   
-    <img src="assets/sugestão para um bom desepenho.png" alt="" srcset=""><br><br>
 
- <img src="assets/como os cartuchos funcionam.png" alt="" srcset=""><br><br>
+<header>
+  <a class="brand" href="#topo" aria-label="Master Cartuchos">
+    <img class="logo" src="assets/logo.png" alt="" srcset="">
+    <span class="title">Master Cartuchos<small>cartuchos &amp; impressoras</small></span>
+  </a>
+  <a class="wa" href="https://api.whatsapp.com/send/?phone=5581982840782&text&type=phone_number&app_absent=0">Falar no WhatsApp</a>
+</header>
 
- <img src="assets/nivel das tintas.png" alt="">
-<br><br>
+<section class="hero" id="topo">
+  <div class="hero-in">
+    <h1>Agradecemos por confiar<br>em nossos <span>serviços</span>.</h1>
+    <p>Antes de voltar a imprimir, veja abaixo orientações importantes para o seu cartucho render muito mais.</p>
+    <div class="scroll-cue">Escolha um tópico abaixo
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg>
+    </div>
+  </div>
+</section>
 
-<img src="assets/cartucho protegido.png" alt="" srcset=""><br><br>
-<img src="assets/impressora nao reconhece.png" alt="" srcset="">
+<nav class="topics" id="tabs">
+  <button class="tab active" data-c="orange" data-panel="p1"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 18h6M10 21h4M12 3a6 6 0 0 0-3.6 10.8c.5.4.6 1 .6 1.6V16h6v-.6c0-.6.1-1.2.6-1.6A6 6 0 0 0 12 3Z"/></svg>Bom desempenho</button>
+  <button class="tab" data-c="cyan" data-panel="p2"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2c3 4 5 7.5 5 10.5a5 5 0 0 1-10 0C7 9.5 9 6 12 2Z"/></svg>Como funciona</button>
+  <button class="tab" data-c="magenta" data-panel="p3"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="8" y="3" width="8" height="18" rx="2"/><path d="M8 13h8"/></svg>Nível das tintas</button>
+  <button class="tab" data-c="navy" data-panel="p4"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="4" y="11" width="16" height="9" rx="2"/><path d="M8 11V8a4 4 0 0 1 8 0v3"/></svg>Cartucho protegido</button>
+  <button class="tab" data-c="red" data-panel="p5"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 3 2 20h20L12 3Z"/><path d="M12 10v4M12 17h.01"/></svg>Não reconhece</button>
+</nav>
 
-<h1 id="subtitle">Somos uma empresa dedicada a fornecer os melhores<br> resultados para sua impressora, <br>focando sempre na <br>qualidade e no atendimento.<br>
-<p style="color: aqua;">Nos avalie no google, isso nos ajuda a crescer e a oferecer um serviço cada vez melhor!</p></h1>
-<br>
-<a class="avaliar google" href="https://g.page/r/CfGKfqBlOjAqEBM/review" target="_blank">Avaliar no Google</a>
-<br>
-<a class="avaliar whatsapp" href="https://api.whatsapp.com/send/?phone=5581982840782&text&type=phone_number&app_absent=0" target="_blank">Whatsapp</a>
-<br>
-<a class="avaliar site" href="https://lucaspietrosd0.github.io/master-cartuchos1/" target="_blank">Visite nosso Site</a>
-<br>
-<h1 class="footer-title">OBRIGADO!</h1><br>
+<main>
+
+  <!-- 1 -->
+  <section class="panel active" id="p1">
+    <div class="panel-head">
+      <div class="icon" style="background:#FDEFE2"><svg viewBox="0 0 24 24" fill="none" stroke="#E56E0A" stroke-width="2"><path d="M9 18h6M10 21h4M12 3a6 6 0 0 0-3.6 10.8c.5.4.6 1 .6 1.6V16h6v-.6c0-.6.1-1.2.6-1.6A6 6 0 0 0 12 3Z"/></svg></div>
+      <div><h2>Sugestões para um bom desempenho</h2><p>Seis hábitos simples que aumentam a vida útil do seu cartucho.</p></div>
+    </div>
+
+    <div class="card" style="border-left-color:var(--orange)"><div class="tip"><div class="num">1</div><p>Não imprima no modo <b>rascunho rápido</b> (econômico).</p></div></div>
+    <div class="card" style="border-left-color:var(--orange)"><div class="tip"><div class="num">2</div><p>A cada 5 impressões, faça uma <b>pequena pausa</b>.</p></div></div>
+    <div class="card" style="border-left-color:var(--orange)"><div class="tip"><div class="num">3</div><p>As oscilações de energia elétrica prejudicam os circuitos dos cartuchos. Por isso, <b>só ligue a impressora no estabilizador</b>, nunca diretamente na rede.</p></div></div>
+    <div class="card" style="border-left-color:var(--orange)"><div class="tip"><div class="num">4</div><p>Vários clientes já perderam o cartucho por deixá-lo cair no chão, pois <b>estavam sem o clipe de proteção</b>. É imprescindível colocá-lo para evitar danos.</p></div></div>
+    <div class="card" style="border-left-color:var(--orange)"><div class="tip"><div class="num">5</div><p>Cartuchos entopem por falta de uso. Faça uma almofadinha de papel higiênico, umedeça com água mineral e deixe por <b>30 minutos</b>. Se a tinta não voltar a sair, traga para limpeza na ultrassom.</p></div></div>
+    <div class="card" style="border-left-color:var(--orange)"><div class="tip"><div class="num">6</div><p>Se a impressora não reconhece os cartuchos, passe um papel macio e limpo nos contatos elétricos — qualquer gordura isola a comunicação. <b>Não toque no circuito elétrico dos cartuchos.</b></p></div></div>
+
+    <div class="callout good"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 6 9 17l-5-5"/></svg>Todas essas recomendações são muito importantes para a vida útil dos cartuchos e para uma impressão de boa qualidade.</div>
+  </section>
+
+  <!-- 2 -->
+  <section class="panel" id="p2">
+    <div class="panel-head">
+      <div class="icon" style="background:#E3F6F9"><svg viewBox="0 0 24 24" fill="none" stroke="#0FAEC7" stroke-width="2"><path d="M12 2c3 4 5 7.5 5 10.5a5 5 0 0 1-10 0C7 9.5 9 6 12 2Z"/></svg></div>
+      <div><h2>Como os cartuchos funcionam</h2><p>Entenda a lógica por trás da impressão para evitar queimar o cartucho.</p></div>
+    </div>
+
+    <div class="card" style="border-left-color:var(--cyan)"><p>Os cartuchos são semelhantes a um <b>chuveiro elétrico</b>: precisamos redobrar a atenção para não deixá-los secar 100%.</p></div>
+
+    <div class="card" style="border-left-color:var(--cyan)">
+      <p><b>Entenda:</b> os condutores internos aquecem e resfriam simultaneamente com a própria tinta.</p>
+      <p>Quando não há mais tinta, esse aquecimento <b>queima os resistores</b>.</p>
+      <p>Por isso, assim que a impressão apresentar falhas, pare imediatamente — <b>não insista</b>.</p>
+    </div>
+
+    <div class="card warn" style="border-left-color:var(--red)">
+      <p>Cartuchos genéricos, fabricados com materiais de baixa qualidade, são muito inferiores aos originais.</p>
+      <p>Por isso devemos evitar o <b>superaquecimento</b>: ele altera os valores dos resistores elétricos — motivo pelo qual algumas impressoras recusam cartuchos abaixo do "padrão ôhmico".</p>
+    </div>
+
+    <div class="callout good"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 6 9 17l-5-5"/></svg>Cuidado, prevenção e manutenção correta aumentam a vida útil dos seus cartuchos e garantem impressões de qualidade!</div>
+  </section>
+
+  <!-- 3 -->
+  <section class="panel" id="p3">
+    <div class="panel-head">
+      <div class="icon" style="background:#FBE7F0"><svg viewBox="0 0 24 24" fill="none" stroke="#D8377F" stroke-width="2"><rect x="8" y="3" width="8" height="18" rx="2"/><path d="M8 13h8"/></svg></div>
+      <div><h2>Nível das tintas</h2><p>Por que o indicador do computador nem sempre reflete a realidade.</p></div>
+    </div>
+
+    <div class="card" style="border-left-color:var(--magenta)"><p>A impressora guarda na memória o nível das tintas e quantas páginas ainda pode imprimir — isso só funciona com cartucho <b>"original"</b>.</p></div>
+    <div class="card" style="border-left-color:var(--magenta)">
+      <p>Ela apenas subtrai o que foi usado. Quando o contador zera, ela entende que a tinta acabou:</p>
+      <div class="gauge-row">
+        <div class="gauge"><div class="tube"><div class="fill" style="height:20%;background:#1a1a1a"></div></div><b>Preto</b><span>20% estimado</span></div>
+        <div class="gauge"><div class="tube"><div class="fill" style="height:35%;background:linear-gradient(90deg,#0FAEC7,#D8377F,#E8A600)"></div></div><b>Colorido</b><span>35% estimado</span></div>
+      </div>
+    </div>
+    <div class="card warn" style="border-left-color:var(--red)">
+      <p>Ao reciclar o cartucho, esse contador <b>não volta</b>: o computador sempre mostrará o cartucho como <b>vazio</b>, mesmo cheio.</p>
+    </div>
+    <div class="callout good"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 9v4M12 17h.01M10.3 3.9 1.8 18a2 2 0 0 0 1.7 3h17a2 2 0 0 0 1.7-3L13.7 3.9a2 2 0 0 0-3.4 0Z"/></svg>Por isso, ao reciclar cartuchos, o nível das tintas não é restaurado — a impressora vai continuar indicando "vazio".</div>
+  </section>
+
+  <!-- 4 -->
+  <section class="panel" id="p4">
+    <div class="panel-head">
+      <div class="icon" style="background:#E7ECF6"><svg viewBox="0 0 24 24" fill="none" stroke="#123166" stroke-width="2"><rect x="4" y="11" width="16" height="9" rx="2"/><path d="M8 11V8a4 4 0 0 1 8 0v3"/></svg></div>
+      <div><h2>Cartucho protegido</h2><p>O que muda quando a impressora "trava" o cartucho em si mesma.</p></div>
+    </div>
+
+    <div class="card" style="border-left-color:var(--navy2)"><p>Quando o cartucho está protegido, ele <b>só funciona na impressora que o protegeu</b>. Se você o colocou numa impressora com essa função ativada, ele passa a funcionar só ali.</p></div>
+    <div class="card warn" style="border-left-color:var(--red)"><p>Se colocar em outra impressora — mesmo compatível — <b>ela não vai aceitar</b>, pois o cartucho foi protegido pela outra máquina.</p></div>
+
+    <h3 style="margin:22px 0 4px; color:var(--navy); font-size:1.05rem;">Como desativar essa função</h3>
+    <div class="steps">
+      <div class="step"><div class="n"></div><p>Dê duplo clique no ícone da impressora HP instalada.</p></div>
+      <div class="step"><div class="n"></div><p>Abra o Assistente de Impressão HP do modelo instalado (ex.: HP Deskjet 2600).</p></div>
+      <div class="step"><div class="n"></div><p>Na tela de níveis de tinta, selecione a aba <b>"Proteção de Cartucho HP"</b>.</p></div>
+      <div class="step"><div class="n"></div><p>Marque <b>"Desativar Proteção de Cartucho HP"</b> e clique em <b>Salvar Configuração</b>.</p></div>
+    </div>
+
+    <div class="callout bad" style="margin-top:20px"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 9v4M12 17h.01M10.3 3.9 1.8 18a2 2 0 0 0 1.7 3h17a2 2 0 0 0 1.7-3L13.7 3.9a2 2 0 0 0-3.4 0Z"/></svg>Atenção: cartuchos que já foram protegidos não serão desprotegidos. Essa alteração vale só para cartuchos novos, nunca instalados antes na impressora.</div>
+  </section>
+
+  <!-- 5 -->
+  <section class="panel" id="p5">
+    <div class="panel-head">
+      <div class="icon" style="background:#FBE7E5"><svg viewBox="0 0 24 24" fill="none" stroke="#D5433A" stroke-width="2"><path d="M12 3 2 20h20L12 3Z"/><path d="M12 10v4M12 17h.01"/></svg></div>
+      <div><h2>Impressora não reconhece o cartucho</h2><p>O passo a passo antes de levar num técnico.</p></div>
+    </div>
+
+    <div class="card warn" style="border-left-color:var(--red)"><p>Isso costuma ser falta de comunicação entre impressora e cartucho. Veja se alguma luz do painel está piscando — se estiver, indica problema de leitura do cartucho.</p></div>
+    <div class="card" style="border-left-color:var(--red)"><p>Há duas luzes: <b>colorido</b> e <b>preto</b>. Luz piscando do lado direito = problema no preto; do lado esquerdo = problema no colorido. Se ambas estiverem firmes (acesas ou apagadas, sem piscar), está tudo certo.</p></div>
+    <div class="card" style="border-left-color:var(--red)"><p>Identifique qual cartucho está piscando, retire-o e passe um pedaço de papel higiênico nos contatos dourados na parte de trás dele. Passe suavemente <b>de baixo para cima</b> — cuidado para não arrancar o flat, ou o cartucho pode parar de funcionar.</p></div>
+    <div class="card" style="border-left-color:var(--red)"><p><b>Por que passar papel higiênico?</b> Os contatos são sensíveis a poeira e gordura — até encostar o dedo pode interromper a comunicação com a impressora. A limpeza remove essas impurezas.</p></div>
+
+    <div class="callout good"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 6 9 17l-5-5"/></svg>Coloque o cartucho de volta e teste. Se não funcionar, leve a um técnico para limpeza e testes — ele pode estar desgastado ou queimado. Manter os contatos sempre limpos é essencial para o bom funcionamento da impressora.</div>
+  </section>
+
+</main>
+
+<section class="cta">
+  <h2>Somos uma empresa dedicada a fornecer os melhores resultados para sua impressora, focando sempre na qualidade e no atendimento.</h2>
+  <p class="lead">Nos avalie no Google — isso nos ajuda a crescer e a oferecer um serviço cada vez melhor!</p>
+  <div class="cta-buttons">
+    <a class="btn-google" href="https://g.page/r/CfGKfqBlOjAqEBM/review">Avaliar no Google</a>
+    <a class="btn-wa" href="https://api.whatsapp.com/send/?phone=5581982840782&text&type=phone_number&app_absent=0">WhatsApp</a>
+    <a class="btn-site" href="https://lucaspietrosd0.github.io/master-cartuchos1/">Visite nosso site</a>
+  </div>
+</section>
+
+<footer>Master Cartuchos — cuidando dos seus cartuchos e da sua impressão.</footer>
+
+<script>
+  const tabs = document.querySelectorAll('.tab');
+  const panels = document.querySelectorAll('.panel');
+  tabs.forEach(tab=>{
+    tab.addEventListener('click', ()=>{
+      tabs.forEach(t=>t.classList.remove('active'));
+      panels.forEach(p=>p.classList.remove('active'));
+      tab.classList.add('active');
+      document.getElementById(tab.dataset.panel).classList.add('active');
+      document.getElementById('tabs').scrollIntoView({behavior:'smooth', block:'start'});
+    });
+  });
+</script>
 </body>
 </html>
